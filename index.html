@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="DESCRIPTION META TAG">
+  <meta property="og:title" content="SOCIAL MEDIA TITLE TAG"/>
+  <meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG"/>
+  <meta property="og:url" content="URL OF THE WEBSITE"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+
+  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
+  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>VIUNet: Deep Visual–Inertial–UWB Fusion for Indoor UAV Localization</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">VIUNet: Deep Visual–Inertial–UWB Fusion for Indoor UAV Localization</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://scholar.google.com.tw/citations?user=T7KLWS0AAAAJ" target="_blank">Peng-Yuan Kao<sup>1</sup></a>, </span>
+                <span class="author-block">Hsui-Jui Chang<sup>1</sup>,</span>
+                  <span class="author-block">
+                    <a href="https://kuan-wei-tseng.github.io" target="_blank">Kuan-Wei Tseng<sup>1,2</sup></a>, </span>
+                    <span class="author-block">
+                      <a href="https://timothychen1999.github.io/website/" target="_blank">Timothy Chen<sup>1</sup></a>, </span>
+                        <span class="author-block">He-Lin Luo<sup>3</sup>, </span>
+                            <span class="author-block">
+                              <a href="https://www.csie.ntu.edu.tw/~hung/index.html#about" target="_blank">Yi-Ping Hung<sup>1</sup></a></span>
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block"><sup>1</sup>National Taiwan University &emsp; <sup>2</sup>Tokyo Insitute of Technology &emsp; <sup>3</sup>Tainan National University of the Arts<br>IEEE ACCESS 2023</span>
+                    <!-- <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span> -->
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                         <!-- Arxiv PDF link -->
+                      <span class="link-block">
+                        <a href="" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper (Coming Soon)</span>
+                      </a>
+                    </span>
+
+                    <!-- Supplementary PDF link -->
+                    <span class="link-block">
+                      <a href="" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fa fa-database" aria-hidden="true"></i>
+                      </span>
+                      <span>Dataset (Coming Soon)</span>
+                    </a>
+                  </span>
+
+                  <!-- Github link -->
+                  <span class="link-block">
+                    <a href="https://github.com/imLabNTU/VIUNet" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code (Coming Soon)</span>
+                  </a>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="item">
+        <!-- Your image here -->
+        <img src="static/images/GA.png" alt="MY ALT TEXT"/>
+        <h2 class="subtitle">
+           We propose a learning-based localization method using the fusion of Vision, Inertial Measurement Unit (IMU), and Ultra-Wideband(UWB) sensors. It consists of a VI branch that takes images and IMU measurements as input and predicts the relative pose between each image frame, and a UWB branch (blue background) which regresses the absolute position according to the UWB measurements. The relative pose and absolute position are combined for UAV indoor localization.
+        </h2>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="item">
+        <!-- Your image here -->
+        <img src="static/images/dataset.png" alt="MY ALT TEXT"/>
+        <br><br>
+        <h2 class="subtitle">
+          We have collected data that provides synchronized RGB images (RealSense D435i), 6DoF IMU measurements (RealSense D435i), UWB measurements (Nooploop LinkTrack S) with ground-truth poses from motion capture system (Vicon). 
+        </h2>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">Citation</h2>
+    <p>If you find this research helpful, please cite (volume, number, pages, doi coming soon)</p>
+    <pre><code>@ARTICLE{VIUNet,
+      author={Kao, Peng-Yuan and Chang, Hsui-Jui and Tseng, Kuan-Wei and Chen, Timothy and Luo, He-Lin and Hung, Yi-Ping},
+      journal={IEEE Access}, 
+      title={VIUNet: Deep Visual–Inertial–UWB Fusion for Indoor UAV Localization}, 
+      year={2023},
+      volume={},
+      number={},
+      pages={},
+      doi={}}
+    </code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>.
+            You are free to borrow the of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
