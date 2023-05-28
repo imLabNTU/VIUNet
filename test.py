@@ -20,13 +20,12 @@ from itertools import chain
 import torch.nn.functional as F
 from data_loader import KITTI_Loader
 from pathlib import Path
-from torch.utils.tensorboard import SummaryWriter
 from scipy.spatial.transform import Rotation as R
 from AutomaticWeightedLoss import AutomaticWeightedLoss
 from localization_algorithm_threading import *
 
 parser = argparse.ArgumentParser(description='Selective Sensor Fusion on KITTI',
-                                 formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+                                formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
 parser.add_argument('data', metavar='DIR',
                     help='path to dataset')
@@ -79,7 +78,7 @@ def main():
     # 0: vision only 1: direct 2: soft 3: hard
 
     # set saving path
-    abs_path = Path('D:myFusion_checkpoint').absolute()
+    abs_path = Path('./results').absolute()
     save_path = save_path_formatter(args, parser)
     args.save_path = abs_path / 'checkpoints' / save_path
     print('=> will save everything to {}'.format(args.save_path))
@@ -194,7 +193,7 @@ def main():
 
     # flownet_model_path = abs_path / ".." / "select_fusion" / "pretrain" / "flownets_EPE1.951.pth"
     # pretrained_models_path = Path('./pretrain/')
-    pretrained_models_path = Path('C:/Users/imLab/Documents/euroc_test')
+    pretrained_models_path = Path('pretrain/')
     flownet_model_path = pretrained_models_path / 'flownets_EPE1.951.pth'
     
     # flownet
@@ -205,13 +204,13 @@ def main():
     feature_ext.load_state_dict(model_dict)
     print('restore depth model from ' + str(flownet_model_path))
 
-    pretrained_models_path = Path('D:/myFusion_checkpoint/checkpoints/euroc_new/11-25-08-24/models')
+    #pretrained_models_path = Path('D:/myFusion_checkpoint/checkpoints/euroc_new/11-25-08-24/models')
 
 #    pretrained_models_path = Path('C:/Users/imLab/Documents/myFusion/pretrain/all')
     # uwb_encoder.load_state_dict(torch.load(pretrained_models_path/"realdata"/"uwb_encoder_real2.pth"))
-    uwb_encoder.load_state_dict(torch.load('pretrain/uwbtest/uwb_encoder_euroc_10cm.pth'))
+    uwb_encoder.load_state_dict(torch.load('pretrain/uwb_encoder.pth'))
 
-    # pretrained_models_path = pretrained_models_path / "00" / "VI" 
+    pretrained_models_path = pretrained_models_path / "all" 
     fc_flownet.load_state_dict(torch.load(pretrained_models_path/"fc_flownet_12.pth")) 
     rec_feat.load_state_dict(torch.load(pretrained_models_path/"rec_12.pth"))
     rec_imu.load_state_dict(torch.load(pretrained_models_path/"rec_imu_12.pth"))
@@ -229,13 +228,13 @@ def main():
     # awl = torch.nn.DataParallel(awl)
     # weights_model = torch.nn.DataParallel(weights_model)
 
-    print('=> setting adam solver')
+    # print('=> setting adam solver')
 
-    parameters = chain(rec_feat.parameters(), rec_imu.parameters(), fc_flownet.parameters(), pose_net.parameters(),
-                       selectfusion.parameters(), awl.parameters(), weights_model.parameters())
-    optimizer = torch.optim.Adam(parameters, args.lr,
-                                 betas=(args.momentum, args.beta),
-                                 weight_decay=args.weight_decay)
+    # parameters = chain(rec_feat.parameters(), rec_imu.parameters(), fc_flownet.parameters(), pose_net.parameters(),
+    #                     selectfusion.parameters(), awl.parameters(), weights_model.parameters())
+    # optimizer = torch.optim.Adam(parameters, args.lr,
+    #                             betas=(args.momentum, args.beta),
+    #                             weight_decay=args.weight_decay)
 
     Path(args.save_path).mkdir(parents=True, exist_ok=True)
     
@@ -247,22 +246,22 @@ def main():
     best_tra = 10000.0
     best_ori = 10000.0
 
-    tbwriter = SummaryWriter('runs_new/quatMSE-hard-weight100')
+
 
     for epoch in range(args.epochs):
 
         # train for one epoch
         # evaluate on validation set
         test(args, test_loader, feature_ext, rec_feat, rec_imu, uwb_encoder, pose_net,
-             fc_flownet, selectfusion, awl, weights_model, 0.5, epoch, fusion_mode)
+            fc_flownet, selectfusion, awl, weights_model, 0.5, epoch, fusion_mode)
 
 
         print('Best: {}, Best Translation {:.5} Best Orientation {:.5}'
-              .format(epoch + 1, best_tra, best_ori))
+            .format(epoch + 1, best_tra, best_ori))
 
 
 def test(args, test_loader, feature_ext, rec_feat, rec_imu, uwb_encoder, pose_net,
-         fc_flownet, selectfusion, awl,  weights_model, temp, epoch, fusion_mode):
+        fc_flownet, selectfusion, awl,  weights_model, temp, epoch, fusion_mode):
 
     batch_time = AverageMeter()
 
@@ -424,7 +423,7 @@ def test(args, test_loader, feature_ext, rec_feat, rec_imu, uwb_encoder, pose_ne
             global_trans_loss += F.mse_loss(poses[j+1][:, :, -1].float().cuda(), predict_pose_t.squeeze(-1))
 
             global_rot_loss += quaternion_loss(torch.FloatTensor(R.from_matrix(poses[j+1][:, :, :3]).as_quat()).cuda(), 
-                                           torch.FloatTensor(R.from_matrix(predict_pose_r.cpu().data.numpy()).as_quat()).cuda())
+                                            torch.FloatTensor(R.from_matrix(predict_pose_r.cpu().data.numpy()).as_quat()).cuda())
 
             if len(truth_pose) == 0:
                 truth_pose = np.copy(pose_truth.cpu().detach().numpy())
@@ -458,8 +457,8 @@ def test(args, test_loader, feature_ext, rec_feat, rec_imu, uwb_encoder, pose_ne
         end = time.time()
 
         print('Test Seq{}: Epoch [{}/{}] Step [{}/{}]: Loss {:.5} '
-              'Euler {:.5} Global T {:.5} Global R {:.5}'.
-              format(k, epoch + 1, args.epochs, i + 1, len(test_loader), loss.item(),
+            'Euler {:.5} Global T {:.5} Global R {:.5}'.
+            format(k, epoch + 1, args.epochs, i + 1, len(test_loader), loss.item(),
                     #  euler_loss.item(), global_trans_loss.item(), global_rot_loss.item(), weights_model.params[0].item(), 1-weights_model.params[0].item()))
                     euler_loss.item(), global_trans_loss.item(), global_rot_loss.item()))
 
@@ -482,7 +481,7 @@ def test(args, test_loader, feature_ext, rec_feat, rec_imu, uwb_encoder, pose_ne
     aver_global_rot_loss /= aver_n
 
     print('Test Average: {}, Average_Loss {:.5} Euler_loss {:.5}, Global_trnas_loss {:.5}'
-          .format(epoch + 1, aver_loss, aver_euler_loss, aver_global_trans_loss))
+        .format(epoch + 1, aver_loss, aver_euler_loss, aver_global_trans_loss))
 
     return
 
