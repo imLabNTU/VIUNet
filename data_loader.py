@@ -86,7 +86,7 @@ class KITTI_Loader(data.Dataset):
                 previous_img = -1
                 lost_n = 0
                 for n_img, img in enumerate(sample['imgs']):
-                    current_img = np.int(img.absolute().name[-14:-4])
+                    current_img = int(img.absolute().name[-14:-4])
                     if previous_img != -1:
                         if current_img - previous_img != 1:
                             flag = False

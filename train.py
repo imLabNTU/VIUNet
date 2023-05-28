@@ -85,12 +85,13 @@ def main():
     # 0: vision only 1: direct 2: soft 3: hard
 
     # set saving path
-    abs_path = Path('D:myFusion_checkpoint').absolute()
+    abs_path = Path('./results').absolute()
     save_path = save_path_formatter(args, parser)
     args.save_path = abs_path / 'checkpoints' / save_path
     print('=> will save everything to {}'.format(args.save_path))
     (args.save_path/"results").mkdir(parents=True, exist_ok=True)
     (args.save_path/"models").mkdir(parents=True, exist_ok=True)
+    
     
     torch.manual_seed(args.seed)
 
@@ -226,7 +227,7 @@ def main():
 
     # flownet_model_path = abs_path / ".." / "select_fusion" / "pretrain" / "flownets_EPE1.951.pth"
     # pretrained_models_path = Path('./pretrain/')
-    pretrained_models_path = Path('C:/Users/imLab/Documents/euroc_test')
+    pretrained_models_path = Path('pretrain/euroc_test/')
     flownet_model_path = pretrained_models_path / 'flownets_EPE1.951.pth'
     
     # flownet
@@ -240,7 +241,9 @@ def main():
     # uwb_encoder.load_state_dict(torch.load(Path('C:/Users/imLab/Documents/newFusion/pretrain/uwbtest/uwb_encoder_square.pth')))
 
     # uwb_encoder.load_state_dict(torch.load(pretrained_models_path/"00"/"UWB"/"uwb_encoder_euroc0.pth"))
-    uwb_encoder.load_state_dict(torch.load(Path('C:/Users/imLab/Documents/myFusion/pretrain/uwbtest/uwb_encoder_euroc_10cm.pth')))
+    # uwb_encoder.load_state_dict(torch.load(Path('C:/Users/imLab/Documents/myFusion/pretrain/uwbtest/uwb_encoder_euroc_10cm.pth')))
+    uwb_encoder.load_state_dict(torch.load('pretrain/uwb_encoder.pth'))
+    
     pretrained_models_path = pretrained_models_path / "00" / "VI" 
     fc_flownet.load_state_dict(torch.load(pretrained_models_path/"fc_flownet_74.pth")) 
     rec_feat.load_state_dict(torch.load(pretrained_models_path/"rec_74.pth"))
