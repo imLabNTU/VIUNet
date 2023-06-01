@@ -251,12 +251,6 @@ def main():
     selectfusion.load_state_dict(torch.load(pretrained_models_path/"selectfusion_74.pth"))
     pose_net.load_state_dict(torch.load(pretrained_models_path/"pose_74.pth"))
 
-    # pretrained_models_path = pretrained_models_path / "realdata"
-    # fc_flownet.load_state_dict(torch.load(pretrained_models_path/"fc_flownet_66.pth")) 
-    # rec_feat.load_state_dict(torch.load(pretrained_models_path/"rec_66.pth"))
-    # rec_imu.load_state_dict(torch.load(pretrained_models_path/"rec_imu_66.pth"))
-    # selectfusion.load_state_dict(torch.load(pretrained_models_path/"selectfusion_66.pth"))
-    # pose_net.load_state_dict(torch.load(pretrained_models_path/"pose_66.pth"))
 
     cudnn.benchmark = True
     feature_ext = torch.nn.DataParallel(feature_ext)
@@ -291,7 +285,7 @@ def main():
     best_tra = 10000.0
     best_ori = 10000.0
 
-    tbwriter = SummaryWriter('runs_new/quatMSE-hard-weight100')
+    tbwriter = SummaryWriter('runs/'+time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()))
 
     for epoch in range(args.epochs):
 
