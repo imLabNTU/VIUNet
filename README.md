@@ -11,7 +11,15 @@ conda activate VIUNet
 ```
 ### Dataset formating
 
+The dataset should be formated as in kitti format, you can do so with following command
+```sh
+python preprocess.py --dir ../euroc --output_dir ../test  --type Euroc
+```
 
+Then, run the UWB simulation to generate the UWB data
+```sh
+python simulate.py --dir ../test --type Euroc
+```
 
 ### Training
 
