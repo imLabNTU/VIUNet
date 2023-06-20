@@ -43,7 +43,7 @@ match type:
             gt_data = pd.read_csv(os.path.join(d,'gt/data.csv'))
             gt_pt = 0
             gt_data = gt_data.values
-            print (f'gt data: {gt_data[0][0]}')
+            print (f'gt data: {gt_data}')
             for i in range(gt_data.shape[0]):
                 gt_data[i][0] = int(gt_data[i][0])
             
@@ -70,11 +70,14 @@ match type:
             last_imu = imu_data[-1][0]
             last_gt = gt_data[-1][0]
             print (f'last photo: {last_photo}, last imu: {last_imu}, last gt: {last_gt}')
+            
             last = min(last_photo, last_imu, last_gt)
-    
+            
+            print (f'begin photo: {times[0]}, begin imu: {imu_data[0][0]}, begin gt: {gt_data[0][0]}')
             begin = max(times[0],imu_data[0][0], gt_data[0][0])
             
             print (f'begin: {begin}, last: {last}')
+            assert begin < last
             
             while imu_data[imu_pt][0] < begin:
                 imu_pt += 1
@@ -84,12 +87,14 @@ match type:
                 times.pop(0)
                 photos.pop(0)
             pcnt = 0
-            while times[pcnt] <= last:
+            while pcnt<len(times) and times[pcnt] <= last:
                 pcnt += 1
                 
             #also remove the last one
             times = times[:pcnt]
             photos = photos[:pcnt-1]
+
+            print (len(times), len(photos))
 
             gt_pose = []
             uwb_pose = []
