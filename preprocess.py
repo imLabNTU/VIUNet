@@ -90,6 +90,7 @@ match type:
             #also remove the last one
             times = times[:pcnt]
             photos = photos[:pcnt-1]
+
             gt_pose = []
             uwb_pose = []
             for i in track(range(len(photos))):
@@ -109,6 +110,8 @@ match type:
                 while imu_data[imu_pt][0] < times[i+1]:
                     imu_at_time.append(imu_data[imu_pt][1:])
                     imu_pt += 1
+                    if imu_pt >= imu_data.shape[0]:
+                        break
                 imu_f = open(os.path.join(output_dir,f'{cnt:02d}',f'{f.split("/")[-1].split(".")[0]}.txt'),'w')
                 for imu in imu_at_time:
                     imu_f.write(f'{imu[0]},{imu[1]},{imu[2]},{imu[3]},{imu[4]},{imu[5]}\n')
